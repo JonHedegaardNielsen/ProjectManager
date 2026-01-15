@@ -2922,9 +2922,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/jon/Desktop/Programming/C#/Console/ProjectManager/ProjectManager/EFGetStarted.csproj",
-      "projectName": "EFGetStarted",
-      "projectPath": "/home/jon/Desktop/Programming/C#/Console/ProjectManager/ProjectManager/EFGetStarted.csproj",
+      "projectUniqueName": "/home/jon/Desktop/Programming/C#/Console/ProjectManager/ProjectManager/ProjectManager.csproj",
+      "projectName": "ProjectManager",
+      "projectPath": "/home/jon/Desktop/Programming/C#/Console/ProjectManager/ProjectManager/ProjectManager.csproj",
       "packagesPath": "/home/jon/.nuget/packages/",
       "outputPath": "/home/jon/Desktop/Programming/C#/Console/ProjectManager/ProjectManager/obj/",
       "projectStyle": "PackageReference",
