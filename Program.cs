@@ -21,10 +21,11 @@ printIncompleteTasksAndTodos();
 
 static async System.Threading.Tasks.Task printIncompleteTasksAndTodos()
 {
-
 	BloggingContext context = new();
-	var tasks = context.Tasks.Include(task => task.Todos).
-		Where(task => task.Todos.Any(todo => todo.IsComplete));
+	var tasks = context.Tasks.Include(task => task.Todos.Where(todo => todo.IsComplete))
+		.Where(task => task.Todos
+			.Any(todo => todo.IsComplete));
+
 
 	foreach (var task in tasks)
 	{
@@ -54,7 +55,7 @@ static async System.Threading.Tasks.Task Seedtask()
 		Name = "Brew Cofee",
 		Todos = [
 			new() {Name = "Pour Water" },
-			new() {Name = "Pour Coffee" },
+			new() {Name = "Pour Coffee"},
 			new() {Name = "Turn On" },
 		],
 	}
