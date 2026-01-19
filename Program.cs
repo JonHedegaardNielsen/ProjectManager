@@ -1,8 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProjeckManager.Models;
 using ProjectManager;
 
-await Seedtask();
-printIncompleteTasksAndTodos();
+seedWorkers();
+
+using BloggingContext context = new();
+Console.WriteLine(context.TeamWorkers.Count());
+
+Console.WriteLine(context.Teams.Count());
+Console.WriteLine(context.Workers.Count());
 
 // await Seedtask();
 //
@@ -18,6 +24,80 @@ printIncompleteTasksAndTodos();
 // 		Console.WriteLine($"- {todo.Name}");
 // 	}
 // }
+//
+
+static void seedWorkers()
+{
+
+	using BloggingContext context = new();
+	context.TeamWorkers.ExecuteDelete();
+	context.Teams.ExecuteDelete();
+	context.Workers.ExecuteDelete();
+	Team frontend = new() { Name = "Frontend" };
+	Team backend = new() { Name = "Backend" };
+	Team testers = new() { Name = "Testere" };
+
+	Worker steenSecher = new() { Name = "Steen Secher" };
+	Worker ejvindMealler = new() { Name = "Ejvind Møller" };
+	Worker konradLadeMann = new() { Name = "Konrad LadeMann" };
+	Worker konradSommer = new() { Name = "Konrad Sommer" };
+	Worker sofusLofus = new() { Name = "Sofus Lotus" };
+	Worker remoLademann = new() { Name = "Remo Lademann" };
+	Worker anneDam = new() { Name = "Anne Dam" };
+	Worker ellaFanth = new() { Name = "Ella Fanth" };
+	TeamWorker[] teamWorkers = [
+	new()
+	{
+		Team = frontend,
+		Worker = steenSecher,
+	},
+	new()
+	{
+		Team = frontend,
+		Worker = ejvindMealler,
+	},
+	new()
+	{
+		Team = frontend,
+		Worker = konradSommer,
+	},
+	new()
+	{
+		Team = backend,
+		Worker = konradLadeMann,
+	},
+	new()
+	{
+		Team = backend,
+		Worker = sofusLofus,
+	},
+	new()
+	{
+		Team = backend,
+		Worker = remoLademann,
+	},
+	new()
+	{
+		Team = testers,
+		Worker = ellaFanth,
+	},
+	new()
+	{
+		Team = testers,
+		Worker = anneDam,
+	},
+	new()
+	{
+		Team = testers,
+		Worker = steenSecher,
+	},
+	];
+
+
+	context.TeamWorkers.AddRange(teamWorkers);
+	context.SaveChanges();
+
+}
 
 static async System.Threading.Tasks.Task printIncompleteTasksAndTodos()
 {

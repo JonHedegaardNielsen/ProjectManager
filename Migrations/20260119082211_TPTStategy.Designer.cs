@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ProjectManager.Migrations
 {
     [DbContext(typeof(BloggingContext))]
-    [Migration("20260115125835_AddedTodo")]
-    partial class AddedTodo
+    [Migration("20260119082211_TPTStategy")]
+    partial class TPTStategy
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,6 +57,27 @@ namespace ProjectManager.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("ProjeckManager.Models.Person", b =>
+                {
+                    b.Property<int>("PersonId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("PersonId");
+
+                    b.ToTable("Person");
+
+                    b.UseTptMappingStrategy();
+                });
+
             modelBuilder.Entity("ProjectManager.Task", b =>
                 {
                     b.Property<int>("TaskId")
@@ -95,6 +116,37 @@ namespace ProjectManager.Migrations
                     b.ToTable("Todos");
                 });
 
+            modelBuilder.Entity("ProjeckManager.Models.Customer", b =>
+                {
+                    b.HasBaseType("ProjeckManager.Models.Person");
+
+                    b.Property<int>("CreditMax")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CustomerNumber")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("ProjeckManager.Models.Employee", b =>
+                {
+                    b.HasBaseType("ProjeckManager.Models.Person");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EmployeeNumber")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("Employees");
+                });
+
             modelBuilder.Entity("Post", b =>
                 {
                     b.HasOne("Blog", "Blog")
@@ -111,6 +163,24 @@ namespace ProjectManager.Migrations
                     b.HasOne("ProjectManager.Task", null)
                         .WithMany("Todos")
                         .HasForeignKey("TaskId");
+                });
+
+            modelBuilder.Entity("ProjeckManager.Models.Customer", b =>
+                {
+                    b.HasOne("ProjeckManager.Models.Person", null)
+                        .WithOne()
+                        .HasForeignKey("ProjeckManager.Models.Customer", "PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProjeckManager.Models.Employee", b =>
+                {
+                    b.HasOne("ProjeckManager.Models.Person", null)
+                        .WithOne()
+                        .HasForeignKey("ProjeckManager.Models.Employee", "PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Blog", b =>
