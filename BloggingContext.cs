@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using ProjectManager;
 using System.Collections.Generic;
-using ProjeckManager.Models;
+using ProjectManager.Models;
 
 public class BloggingContext : DbContext
 {
@@ -31,6 +31,10 @@ public class BloggingContext : DbContext
 		modelBuilder.Entity<Person>().UseTptMappingStrategy();
 		modelBuilder.Entity<TeamWorker>()
 			.HasKey(p => new { p.TeamId, p.WorkerId });
+		modelBuilder.Entity<ProjectManager.Task>()
+			.HasKey(task => task.TaskId);
+		modelBuilder.Entity<Todo>()
+			.HasKey(todo => todo.TodoId);
 
 		base.OnModelCreating(modelBuilder);
 	}

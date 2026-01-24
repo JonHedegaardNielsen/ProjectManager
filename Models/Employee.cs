@@ -1,4 +1,4 @@
-namespace ProjeckManager.Models;
+namespace ProjectManager.Models;
 
 public class Employee : Person
 {

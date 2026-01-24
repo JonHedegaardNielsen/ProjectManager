@@ -7,4 +7,9 @@ public class Todo
 	public bool IsComplete { get; set; } = false;
 
 	public Todo() { }
+	public Todo(string name)
+	{
+		Name = name;
+	}
+
 }

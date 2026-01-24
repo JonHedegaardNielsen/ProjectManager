@@ -1,99 +1,89 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjeckManager.Models;
+using ProjectManager.Models;
 using ProjectManager;
 
 seedWorkers();
 
-using BloggingContext context = new();
-Console.WriteLine(context.TeamWorkers.Count());
+// using BloggingContext context = new ();
+// Console.WriteLine(context.TeamWorkers.Count());
+//
+// Console.WriteLine(context.Teams.Count());
+// Console.WriteLine(context.Workers.Count());
+// Console.WriteLine(context.Todos.Count());
+// Console.WriteLine(context.Tasks.Count());
 
-Console.WriteLine(context.Teams.Count());
-Console.WriteLine(context.Workers.Count());
 
-// await Seedtask();
-//
-// using BloggingContext context = new();
-//
-// var tasks = context.Tasks.Include(task => task.Todos);
-// Console.WriteLine("Hello World " + tasks.Count()); ;
-// foreach (var task in tasks)
-// {
-// 	Console.WriteLine(task.Name);
-// 	foreach (var todo in task.Todos)
-// 	{
-// 		Console.WriteLine($"- {todo.Name}");
-// 	}
-// }
-//
 
 static void seedWorkers()
 {
-
 	using BloggingContext context = new();
 	context.TeamWorkers.ExecuteDelete();
 	context.Teams.ExecuteDelete();
 	context.Workers.ExecuteDelete();
-	Team frontend = new() { Name = "Frontend" };
+	context.Tasks.ExecuteDelete();
+	context.Todos.ExecuteDelete();
+	ProjectManager.Task task = new("jon");
+	Team frontend = new() { Name = "Frontend", CurrentTask = new() };
 	Team backend = new() { Name = "Backend" };
 	Team testers = new() { Name = "Testere" };
 
-	Worker steenSecher = new() { Name = "Steen Secher" };
-	Worker ejvindMealler = new() { Name = "Ejvind Møller" };
-	Worker konradLadeMann = new() { Name = "Konrad LadeMann" };
-	Worker konradSommer = new() { Name = "Konrad Sommer" };
-	Worker sofusLofus = new() { Name = "Sofus Lotus" };
-	Worker remoLademann = new() { Name = "Remo Lademann" };
-	Worker anneDam = new() { Name = "Anne Dam" };
-	Worker ellaFanth = new() { Name = "Ella Fanth" };
+	// Worker steenSecher = new() { Name = "Steen Secher" };
+	Worker ejvindMealler = new("Ejvind Møller", new("spis kage"));
+	Worker konradLadeMann = new("Konrad LadeMann");
+	Worker konradSommer = new("Konrad Sommer");
+	Worker sofusLofus = new("Sofus Lotus");
+	Worker remoLademann = new("Remo Lademann");
+	Worker anneDam = new("Anne Dam");
+	Worker ellaFanth = new("Ella Fanth");
 	TeamWorker[] teamWorkers = [
-	new()
-	{
-		Team = frontend,
-		Worker = steenSecher,
-	},
+	// new()
+	// {
+	// 	Team = frontend,
+	// 	Worker = steenSecher,
+	// },
 	new()
 	{
 		Team = frontend,
 		Worker = ejvindMealler,
 	},
-	new()
-	{
-		Team = frontend,
-		Worker = konradSommer,
-	},
-	new()
-	{
-		Team = backend,
-		Worker = konradLadeMann,
-	},
-	new()
-	{
-		Team = backend,
-		Worker = sofusLofus,
-	},
-	new()
-	{
-		Team = backend,
-		Worker = remoLademann,
-	},
-	new()
-	{
-		Team = testers,
-		Worker = ellaFanth,
-	},
-	new()
-	{
-		Team = testers,
-		Worker = anneDam,
-	},
-	new()
-	{
-		Team = testers,
-		Worker = steenSecher,
-	},
+	// new()
+	// {
+	// 	Team = frontend,
+	// 	Worker = konradSommer,
+	// },
+	// new()
+	// {
+	// 	Team = backend,
+	// 	Worker = konradLadeMann,
+	// },
+	// new()
+	// {
+	// 	Team = backend,
+	// 	Worker = sofusLofus,
+	// },
+	// new()
+	// {
+	// 	Team = backend,
+	// 	Worker = remoLademann,
+	// },
+	// new()
+	// {
+	// 	Team = testers,
+	// 	Worker = ellaFanth,
+	// },
+	// new()
+	// {
+	// 	Team = testers,
+	// 	Worker = anneDam,
+	// },
+	// new()
+	// {
+	// 	Team = testers,
+	// 	Worker = steenSecher,
+	// },
 	];
 
-
+	//
 	context.TeamWorkers.AddRange(teamWorkers);
 	context.SaveChanges();
 

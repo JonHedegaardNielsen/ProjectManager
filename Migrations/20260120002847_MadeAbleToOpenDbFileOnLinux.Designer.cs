@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ProjectManager.Migrations
 {
     [DbContext(typeof(BloggingContext))]
-    [Migration("20260119095843_TeamWorkerManyToMany")]
-    partial class TeamWorkerManyToMany
+    [Migration("20260120002847_MadeAbleToOpenDbFileOnLinux")]
+    partial class MadeAbleToOpenDbFileOnLinux
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,11 +84,16 @@ namespace ProjectManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("CurrentTaskTaskId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("TeamId");
+
+                    b.HasIndex("CurrentTaskTaskId");
 
                     b.ToTable("Teams");
                 });
@@ -118,7 +123,12 @@ namespace ProjectManager.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("currentTodoTodoId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("WorkerId");
+
+                    b.HasIndex("currentTodoTodoId");
 
                     b.ToTable("Workers");
                 });
@@ -133,7 +143,12 @@ namespace ProjectManager.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("TeamId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("TaskId");
+
+                    b.HasIndex("TeamId");
 
                     b.ToTable("Tasks");
                 });
@@ -154,9 +169,14 @@ namespace ProjectManager.Migrations
                     b.Property<int?>("TaskId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("WorkerId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("TodoId");
 
                     b.HasIndex("TaskId");
+
+                    b.HasIndex("WorkerId");
 
                     b.ToTable("Todos");
                 });
@@ -218,6 +238,17 @@ namespace ProjectManager.Migrations
                     b.Navigation("Blog");
                 });
 
+            modelBuilder.Entity("ProjeckManager.Models.Team", b =>
+                {
+                    b.HasOne("ProjectManager.Task", "CurrentTask")
+                        .WithMany()
+                        .HasForeignKey("CurrentTaskTaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CurrentTask");
+                });
+
             modelBuilder.Entity("ProjeckManager.Models.TeamWorker", b =>
                 {
                     b.HasOne("ProjeckManager.Models.Team", "Team")
@@ -237,11 +268,33 @@ namespace ProjectManager.Migrations
                     b.Navigation("Worker");
                 });
 
+            modelBuilder.Entity("ProjeckManager.Models.Worker", b =>
+                {
+                    b.HasOne("ProjectManager.Todo", "currentTodo")
+                        .WithMany()
+                        .HasForeignKey("currentTodoTodoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("currentTodo");
+                });
+
+            modelBuilder.Entity("ProjectManager.Task", b =>
+                {
+                    b.HasOne("ProjeckManager.Models.Team", null)
+                        .WithMany("Tasks")
+                        .HasForeignKey("TeamId");
+                });
+
             modelBuilder.Entity("ProjectManager.Todo", b =>
                 {
                     b.HasOne("ProjectManager.Task", null)
                         .WithMany("Todos")
                         .HasForeignKey("TaskId");
+
+                    b.HasOne("ProjeckManager.Models.Worker", null)
+                        .WithMany("Todos")
+                        .HasForeignKey("WorkerId");
                 });
 
             modelBuilder.Entity("TeamWorker", b =>
@@ -280,6 +333,16 @@ namespace ProjectManager.Migrations
             modelBuilder.Entity("Blog", b =>
                 {
                     b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("ProjeckManager.Models.Team", b =>
+                {
+                    b.Navigation("Tasks");
+                });
+
+            modelBuilder.Entity("ProjeckManager.Models.Worker", b =>
+                {
+                    b.Navigation("Todos");
                 });
 
             modelBuilder.Entity("ProjectManager.Task", b =>
