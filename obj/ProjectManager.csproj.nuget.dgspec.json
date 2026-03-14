@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/jon/Desktop/Programming/C#/Console/ProjectManager/ProjectManager/ProjectManager.csproj": {}
+    "/home/jon/Programming/c#/ProjectManager/ProjectManager.csproj": {}
   },
   "projects": {
-    "/home/jon/Desktop/Programming/C#/Console/ProjectManager/ProjectManager/ProjectManager.csproj": {
+    "/home/jon/Programming/c#/ProjectManager/ProjectManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/jon/Desktop/Programming/C#/Console/ProjectManager/ProjectManager/ProjectManager.csproj",
+        "projectUniqueName": "/home/jon/Programming/c#/ProjectManager/ProjectManager.csproj",
         "projectName": "ProjectManager",
-        "projectPath": "/home/jon/Desktop/Programming/C#/Console/ProjectManager/ProjectManager/ProjectManager.csproj",
+        "projectPath": "/home/jon/Programming/c#/ProjectManager/ProjectManager.csproj",
         "packagesPath": "/home/jon/.nuget/packages/",
-        "outputPath": "/home/jon/Desktop/Programming/C#/Console/ProjectManager/ProjectManager/obj/",
+        "outputPath": "/home/jon/Programming/c#/ProjectManager/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/jon/.nuget/NuGet/NuGet.Config"
@@ -20,7 +20,6 @@
           "net10.0"
         ],
         "sources": {
-          "/usr/lib/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -45,15 +44,29 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[10.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[10.0.5, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[10.0.2, )"
+              "version": "[10.0.5, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
-              "version": "[10.0.2, )"
+              "version": "[10.0.5, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[10.0.5, )"
             }
           },
           "imports": [
@@ -72,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/10.0.100/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/home/jon/.local/share/mise/installs/dotnet/10.0.103/sdk/10.0.103/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",

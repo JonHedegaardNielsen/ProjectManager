@@ -2,7 +2,14 @@
 using ProjectManager.Models;
 using ProjectManager;
 
-seedWorkers();
+try
+{
+	seedWorkers();
+}
+catch (DbUpdateException ex)
+{
+	Console.WriteLine(ex.InnerException);
+}
 
 // using BloggingContext context = new ();
 // Console.WriteLine(context.TeamWorkers.Count());
@@ -23,64 +30,64 @@ static void seedWorkers()
 	context.Tasks.ExecuteDelete();
 	context.Todos.ExecuteDelete();
 	ProjectManager.Task task = new("jon");
-	Team frontend = new() { Name = "Frontend", CurrentTask = new() };
-	Team backend = new() { Name = "Backend" };
-	Team testers = new() { Name = "Testere" };
+	Team frontend = new("Frontend", new("Lave frontend"));
+	Team backend = new("Backend", new("Lave backend"));
+	Team testers = new("Testere", new("Teste frontend og backend"));
 
-	// Worker steenSecher = new() { Name = "Steen Secher" };
-	Worker ejvindMealler = new("Ejvind Møller", new("spis kage"));
-	Worker konradLadeMann = new("Konrad LadeMann");
-	Worker konradSommer = new("Konrad Sommer");
-	Worker sofusLofus = new("Sofus Lotus");
-	Worker remoLademann = new("Remo Lademann");
-	Worker anneDam = new("Anne Dam");
-	Worker ellaFanth = new("Ella Fanth");
+	Worker steenSecher = new("Steen Secher", new("Papir Abejde"));
+	Worker ejvindMealler = new("Ejvind Møller", new("Spis kage"));
+	Worker konradLadeMann = new("Konrad LadeMann", new("Papir Abejde"));
+	Worker konradSommer = new("Konrad Sommer", new("Papir Abejde"));
+	Worker sofusLofus = new("Sofus Lotus", new("Lave kaffe"));
+	Worker remoLademann = new("Remo Lademann", new("Lave kaffe"));
+	Worker anneDam = new("Anne Dam", new("Spis kage"));
+	Worker ellaFanth = new("Ella Fanth", new("Lave kaffe"));
 	TeamWorker[] teamWorkers = [
-	// new()
-	// {
-	// 	Team = frontend,
-	// 	Worker = steenSecher,
-	// },
+	new()
+	{
+		Team = frontend,
+		Worker = steenSecher,
+	},
 	new()
 	{
 		Team = frontend,
 		Worker = ejvindMealler,
 	},
-	// new()
-	// {
-	// 	Team = frontend,
-	// 	Worker = konradSommer,
-	// },
-	// new()
-	// {
-	// 	Team = backend,
-	// 	Worker = konradLadeMann,
-	// },
-	// new()
-	// {
-	// 	Team = backend,
-	// 	Worker = sofusLofus,
-	// },
-	// new()
-	// {
-	// 	Team = backend,
-	// 	Worker = remoLademann,
-	// },
-	// new()
-	// {
-	// 	Team = testers,
-	// 	Worker = ellaFanth,
-	// },
-	// new()
-	// {
-	// 	Team = testers,
-	// 	Worker = anneDam,
-	// },
-	// new()
-	// {
-	// 	Team = testers,
-	// 	Worker = steenSecher,
-	// },
+	new()
+	{
+		Team = frontend,
+		Worker = konradSommer,
+	},
+	new()
+	{
+		Team = backend,
+		Worker = konradLadeMann,
+	},
+	new()
+	{
+		Team = backend,
+		Worker = sofusLofus,
+	},
+	new()
+	{
+		Team = backend,
+		Worker = remoLademann,
+	},
+	new()
+	{
+		Team = testers,
+		Worker = ellaFanth,
+	},
+	new()
+	{
+		Team = testers,
+		Worker = anneDam,
+	},
+	new()
+	{
+		Team = testers,
+		Worker = steenSecher,
+	},
 	];
 
 	//
