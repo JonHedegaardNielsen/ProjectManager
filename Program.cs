@@ -2,15 +2,17 @@
 using ProjectManager.Models;
 using ProjectManager;
 
-try
-{
-	seedWorkers();
-}
-catch (DbUpdateException ex)
-{
-	Console.WriteLine(ex.InnerException);
-}
+// try
+// {
+// 	seedWorkers();
+// }
+// catch (DbUpdateException ex)
+// {
+// 	Console.WriteLine(ex.InnerException);
+// }
 
+PrintTeamsWithoutTasks();
+// seedWorkers();
 // using BloggingContext context = new ();
 // Console.WriteLine(context.TeamWorkers.Count());
 //
@@ -20,6 +22,17 @@ catch (DbUpdateException ex)
 // Console.WriteLine(context.Tasks.Count());
 
 
+static List<Team> PrintTeamsWithoutTasks()
+{
+	using BloggingContext context = new();
+	var teamsWithoutTasks = context.Teams.Where(team => !team.Tasks.Any()).ToList();
+	foreach (var team in teamsWithoutTasks)
+	{
+		Console.WriteLine(team.Name);
+	}
+
+	return teamsWithoutTasks;
+}
 
 static void seedWorkers()
 {
@@ -30,9 +43,12 @@ static void seedWorkers()
 	context.Tasks.ExecuteDelete();
 	context.Todos.ExecuteDelete();
 	ProjectManager.Task task = new("jon");
+	ProjectManager.Task frontendTask = new("Lave frontend");
+	ProjectManager.Task backendTask = new("Lave backend");
+	ProjectManager.Task testTask = new("Teste frontend og backend");
 	Team frontend = new("Frontend", new("Lave frontend"));
 	Team backend = new("Backend", new("Lave backend"));
-	Team testers = new("Testere", new("Teste frontend og backend"));
+	Team testers = new("Testere", new("Teste frontend og backend")) { Tasks = [new("jon")] };
 
 	Worker steenSecher = new("Steen Secher", new("Papir Abejde"));
 	Worker ejvindMealler = new("Ejvind Møller", new("Spis kage"));
@@ -89,8 +105,6 @@ static void seedWorkers()
 		Worker = steenSecher,
 	},
 	];
-
-	//
 	context.TeamWorkers.AddRange(teamWorkers);
 	context.SaveChanges();
 

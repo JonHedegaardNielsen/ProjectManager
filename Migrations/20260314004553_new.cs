@@ -5,7 +5,7 @@
 namespace ProjectManager.Migrations
 {
     /// <inheritdoc />
-    public partial class MadeAbleToOpenDbFileOnLinux : Migration
+    public partial class @new : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -117,14 +117,14 @@ namespace ProjectManager.Migrations
                     TeamId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    CurrentTaskTaskId = table.Column<int>(type: "INTEGER", nullable: false)
+                    CurrentTaskId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Teams", x => x.TeamId);
                     table.ForeignKey(
-                        name: "FK_Teams_Tasks_CurrentTaskTaskId",
-                        column: x => x.CurrentTaskTaskId,
+                        name: "FK_Teams_Tasks_CurrentTaskId",
+                        column: x => x.CurrentTaskId,
                         principalTable: "Tasks",
                         principalColumn: "TaskId",
                         onDelete: ReferentialAction.Cascade);
@@ -218,9 +218,9 @@ namespace ProjectManager.Migrations
                 column: "TeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Teams_CurrentTaskTaskId",
+                name: "IX_Teams_CurrentTaskId",
                 table: "Teams",
-                column: "CurrentTaskTaskId");
+                column: "CurrentTaskId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeamWorker_WorkersWorkerId",

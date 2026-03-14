@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ProjectManager.Migrations
 {
     [DbContext(typeof(BloggingContext))]
-    [Migration("20260120002847_MadeAbleToOpenDbFileOnLinux")]
-    partial class MadeAbleToOpenDbFileOnLinux
+    [Migration("20260314010046_new2")]
+    partial class new2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "10.0.2");
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.5");
 
             modelBuilder.Entity("Blog", b =>
                 {
@@ -57,7 +57,7 @@ namespace ProjectManager.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("ProjeckManager.Models.Person", b =>
+            modelBuilder.Entity("ProjectManager.Models.Person", b =>
                 {
                     b.Property<int>("PersonId")
                         .ValueGeneratedOnAdd()
@@ -78,13 +78,13 @@ namespace ProjectManager.Migrations
                     b.UseTptMappingStrategy();
                 });
 
-            modelBuilder.Entity("ProjeckManager.Models.Team", b =>
+            modelBuilder.Entity("ProjectManager.Models.Team", b =>
                 {
                     b.Property<int>("TeamId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CurrentTaskTaskId")
+                    b.Property<int>("CurrentTaskId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -93,12 +93,13 @@ namespace ProjectManager.Migrations
 
                     b.HasKey("TeamId");
 
-                    b.HasIndex("CurrentTaskTaskId");
+                    b.HasIndex("CurrentTaskId")
+                        .IsUnique();
 
                     b.ToTable("Teams");
                 });
 
-            modelBuilder.Entity("ProjeckManager.Models.TeamWorker", b =>
+            modelBuilder.Entity("ProjectManager.Models.TeamWorker", b =>
                 {
                     b.Property<int>("TeamId")
                         .HasColumnType("INTEGER");
@@ -113,7 +114,7 @@ namespace ProjectManager.Migrations
                     b.ToTable("TeamWorkers");
                 });
 
-            modelBuilder.Entity("ProjeckManager.Models.Worker", b =>
+            modelBuilder.Entity("ProjectManager.Models.Worker", b =>
                 {
                     b.Property<int>("WorkerId")
                         .ValueGeneratedOnAdd()
@@ -196,9 +197,9 @@ namespace ProjectManager.Migrations
                     b.ToTable("TeamWorker");
                 });
 
-            modelBuilder.Entity("ProjeckManager.Models.Customer", b =>
+            modelBuilder.Entity("ProjectManager.Models.Customer", b =>
                 {
-                    b.HasBaseType("ProjeckManager.Models.Person");
+                    b.HasBaseType("ProjectManager.Models.Person");
 
                     b.Property<int>("CreditMax")
                         .HasColumnType("INTEGER");
@@ -213,9 +214,9 @@ namespace ProjectManager.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("ProjeckManager.Models.Employee", b =>
+            modelBuilder.Entity("ProjectManager.Models.Employee", b =>
                 {
-                    b.HasBaseType("ProjeckManager.Models.Person");
+                    b.HasBaseType("ProjectManager.Models.Person");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("INTEGER");
@@ -238,26 +239,26 @@ namespace ProjectManager.Migrations
                     b.Navigation("Blog");
                 });
 
-            modelBuilder.Entity("ProjeckManager.Models.Team", b =>
+            modelBuilder.Entity("ProjectManager.Models.Team", b =>
                 {
                     b.HasOne("ProjectManager.Task", "CurrentTask")
-                        .WithMany()
-                        .HasForeignKey("CurrentTaskTaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne()
+                        .HasForeignKey("ProjectManager.Models.Team", "CurrentTaskId")
+                        .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
                     b.Navigation("CurrentTask");
                 });
 
-            modelBuilder.Entity("ProjeckManager.Models.TeamWorker", b =>
+            modelBuilder.Entity("ProjectManager.Models.TeamWorker", b =>
                 {
-                    b.HasOne("ProjeckManager.Models.Team", "Team")
+                    b.HasOne("ProjectManager.Models.Team", "Team")
                         .WithMany()
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjeckManager.Models.Worker", "Worker")
+                    b.HasOne("ProjectManager.Models.Worker", "Worker")
                         .WithMany()
                         .HasForeignKey("WorkerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -268,7 +269,7 @@ namespace ProjectManager.Migrations
                     b.Navigation("Worker");
                 });
 
-            modelBuilder.Entity("ProjeckManager.Models.Worker", b =>
+            modelBuilder.Entity("ProjectManager.Models.Worker", b =>
                 {
                     b.HasOne("ProjectManager.Todo", "currentTodo")
                         .WithMany()
@@ -281,7 +282,7 @@ namespace ProjectManager.Migrations
 
             modelBuilder.Entity("ProjectManager.Task", b =>
                 {
-                    b.HasOne("ProjeckManager.Models.Team", null)
+                    b.HasOne("ProjectManager.Models.Team", null)
                         .WithMany("Tasks")
                         .HasForeignKey("TeamId");
                 });
@@ -292,40 +293,40 @@ namespace ProjectManager.Migrations
                         .WithMany("Todos")
                         .HasForeignKey("TaskId");
 
-                    b.HasOne("ProjeckManager.Models.Worker", null)
+                    b.HasOne("ProjectManager.Models.Worker", null)
                         .WithMany("Todos")
                         .HasForeignKey("WorkerId");
                 });
 
             modelBuilder.Entity("TeamWorker", b =>
                 {
-                    b.HasOne("ProjeckManager.Models.Team", null)
+                    b.HasOne("ProjectManager.Models.Team", null)
                         .WithMany()
                         .HasForeignKey("TeamsTeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProjeckManager.Models.Worker", null)
+                    b.HasOne("ProjectManager.Models.Worker", null)
                         .WithMany()
                         .HasForeignKey("WorkersWorkerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjeckManager.Models.Customer", b =>
+            modelBuilder.Entity("ProjectManager.Models.Customer", b =>
                 {
-                    b.HasOne("ProjeckManager.Models.Person", null)
+                    b.HasOne("ProjectManager.Models.Person", null)
                         .WithOne()
-                        .HasForeignKey("ProjeckManager.Models.Customer", "PersonId")
+                        .HasForeignKey("ProjectManager.Models.Customer", "PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjeckManager.Models.Employee", b =>
+            modelBuilder.Entity("ProjectManager.Models.Employee", b =>
                 {
-                    b.HasOne("ProjeckManager.Models.Person", null)
+                    b.HasOne("ProjectManager.Models.Person", null)
                         .WithOne()
-                        .HasForeignKey("ProjeckManager.Models.Employee", "PersonId")
+                        .HasForeignKey("ProjectManager.Models.Employee", "PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -335,12 +336,12 @@ namespace ProjectManager.Migrations
                     b.Navigation("Posts");
                 });
 
-            modelBuilder.Entity("ProjeckManager.Models.Team", b =>
+            modelBuilder.Entity("ProjectManager.Models.Team", b =>
                 {
                     b.Navigation("Tasks");
                 });
 
-            modelBuilder.Entity("ProjeckManager.Models.Worker", b =>
+            modelBuilder.Entity("ProjectManager.Models.Worker", b =>
                 {
                     b.Navigation("Todos");
                 });
