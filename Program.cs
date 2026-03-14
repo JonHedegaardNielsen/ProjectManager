@@ -4,21 +4,25 @@ using ProjectManager;
 
 using BloggingContext context = new();
 var result = context.Teams
-	.Include(t => t.Tasks)
-	.SelectMany(t => t.Tasks, (team, task) => new
-	{
-		TeamName = team.Name,
-		TaskName = task.Name
-	})
+	.Include(t => t.CurrentTask)
+		.ThenInclude(t => t.Todos)
 	.ToList();
-foreach (var item in result)
+
+foreach (var team in result)
 {
-	Console.WriteLine($"Team: {item.TeamName}, Task: {item.TaskName}");
+	if (team.CurrentTask == null)
+	{
+		Console.WriteLine($"{team.Name,-20} No current task");
+		continue;
+	}
+
+	var todos = team.CurrentTask.Todos;
+	int total = todos.Count;
+	int completed = todos.Count(t => t.IsComplete);
+	double percent = total == 0 ? 0 : (double)completed / total * 100;
+
+	Console.WriteLine($"{team.Name,-20} {team.CurrentTask.Name,-20} {percent:0}% done ({completed}/{total})");
 }
-
-
-
-
 
 
 static List<Team> PrintTeamsWithoutTasks()
