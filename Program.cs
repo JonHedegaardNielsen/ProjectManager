@@ -2,24 +2,23 @@
 using ProjectManager.Models;
 using ProjectManager;
 
-// try
-// {
-// 	seedWorkers();
-// }
-// catch (DbUpdateException ex)
-// {
-// 	Console.WriteLine(ex.InnerException);
-// }
+using BloggingContext context = new();
+var result = context.Teams
+	.Include(t => t.Tasks)
+	.SelectMany(t => t.Tasks, (team, task) => new
+	{
+		TeamName = team.Name,
+		TaskName = task.Name
+	})
+	.ToList();
+foreach (var item in result)
+{
+	Console.WriteLine($"Team: {item.TeamName}, Task: {item.TaskName}");
+}
 
-PrintTeamsWithoutTasks();
-// seedWorkers();
-// using BloggingContext context = new ();
-// Console.WriteLine(context.TeamWorkers.Count());
-//
-// Console.WriteLine(context.Teams.Count());
-// Console.WriteLine(context.Workers.Count());
-// Console.WriteLine(context.Todos.Count());
-// Console.WriteLine(context.Tasks.Count());
+
+
+
 
 
 static List<Team> PrintTeamsWithoutTasks()
